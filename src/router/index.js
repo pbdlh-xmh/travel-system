@@ -41,6 +41,12 @@ export const constantRoutes = [
       }
     ]
   },
+  
+  {
+    path: '/test',
+    component: () => import('@/views/test'),
+    hidden: true
+  },
   {
     path: '/login',
     component: () => import('@/views/login'),
@@ -161,7 +167,8 @@ export const dynamicRoutes = [
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
       }
     ]
-  }
+  },
+
 ]
 
 // 防止连续点击多次路由报错
