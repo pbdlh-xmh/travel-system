@@ -5,9 +5,12 @@
   "author": "若依",
   "license": "MIT",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build:prod": "vue-cli-service build",
-    "build:stage": "vue-cli-service build --mode staging",
+    "dev:admin": "vue-cli-service serve --mode development --port 80",
+    "dev:client": "vue-cli-service serve --mode development --port 8081",
+    "dev": "concurrently \"npm run dev:admin\" \"npm run dev:client\"",
+    "build:admin": "vue-cli-service build --mode production",
+    "build:client": "vue-cli-service build --mode production",
+    "build": "npm run build:admin && npm run build:client",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src"
   },
@@ -68,6 +71,7 @@
     "babel-plugin-dynamic-import-node": "2.3.3",
     "chalk": "4.1.0",
     "compression-webpack-plugin": "6.1.2",
+    "concurrently": "^9.1.0",
     "connect": "3.6.6",
     "eslint": "7.15.0",
     "eslint-plugin-vue": "7.2.0",

@@ -1,0 +1,31 @@
+/* 客户端全局样式 */
+
+// 基础样式
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+#app {
+  height: 100%;
+}
+
+// 清除浮动
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+// 页面过渡动画
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
