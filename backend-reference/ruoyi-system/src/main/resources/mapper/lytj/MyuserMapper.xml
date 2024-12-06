@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.MyuserMapper">
+    
+    <resultMap type="Myuser" id="MyuserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="gender"    column="gender"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="avatarUrl"    column="avatar_url"    />
+        <result property="interestTags"    column="interest_tags"    />
+        <result property="registerTime"    column="register_time"    />
+        <result property="lastLoginTime"    column="last_login_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectMyuserVo">
+        select user_id, username, password, email, phone, gender, birthday, avatar_url, interest_tags, register_time, last_login_time, status from myuser
+    </sql>
+
+    <select id="selectMyuserList" parameterType="Myuser" resultMap="MyuserResult">
+        <include refid="selectMyuserVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone like concat('%', #{phone}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyuserByUserId" parameterType="String" resultMap="MyuserResult">
+        <include refid="selectMyuserVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertMyuser" parameterType="Myuser" useGeneratedKeys="true" keyProperty="userId">
+        insert into myuser
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null and username != ''">username,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="email != null and email != ''">email,</if>
+            <if test="phone != null">phone,</if>
+            <if test="gender != null">gender,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="avatarUrl != null">avatar_url,</if>
+            <if test="interestTags != null">interest_tags,</if>
+            <if test="registerTime != null">register_time,</if>
+            <if test="lastLoginTime != null">last_login_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null and username != ''">#{username},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="avatarUrl != null">#{avatarUrl},</if>
+            <if test="interestTags != null">#{interestTags},</if>
+            <if test="registerTime != null">#{registerTime},</if>
+            <if test="lastLoginTime != null">#{lastLoginTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyuser" parameterType="Myuser">
+        update myuser
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="email != null and email != ''">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="avatarUrl != null">avatar_url = #{avatarUrl},</if>
+            <if test="interestTags != null">interest_tags = #{interestTags},</if>
+            <if test="registerTime != null">register_time = #{registerTime},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteMyuserByUserId" parameterType="String">
+        delete from myuser where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteMyuserByUserIds" parameterType="String">
+        delete from myuser where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

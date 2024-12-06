@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.TourRouteMapper">
+    
+    <resultMap type="TourRoute" id="TourRouteResult">
+        <result property="routeId"    column="route_id"    />
+        <result property="routeName"    column="route_name"    />
+        <result property="price"    column="price"    />
+        <result property="description"    column="description"    />
+        <result property="duration"    column="duration"    />
+        <result property="departurePlace"    column="departure_place"    />
+        <result property="destination"    column="destination"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="images"    column="images"    />
+        <result property="tags"    column="tags"    />
+        <result property="viewCount"    column="view_count"    />
+        <result property="favoritesCount"    column="favorites_count"    />
+        <result property="commentsCount"    column="comments_count"    />
+        <result property="bookingsCount"    column="bookings_count"    />
+        <result property="minBudget"    column="min_budget"    />
+        <result property="maxBudget"    column="max_budget"    />
+        <result property="maxGroupSize"    column="max_group_size"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectTourRouteVo">
+        select route_id, route_name, price, description, duration, departure_place, destination, image_url, images, tags, view_count, favorites_count, comments_count, bookings_count, min_budget, max_budget, max_group_size, create_time, update_time, status from tour_route
+    </sql>
+
+    <select id="selectTourRouteList" parameterType="TourRoute" resultMap="TourRouteResult">
+        <include refid="selectTourRouteVo"/>
+        <where>  
+            <if test="routeName != null  and routeName != ''"> and route_name like concat('%', #{routeName}, '%')</if>
+            <if test="params.beginPrice != null and params.beginPrice != '' and params.endPrice != null and params.endPrice != ''"> and price between #{params.beginPrice} and #{params.endPrice}</if>
+            <if test="duration != null "> and duration like concat('%', #{duration}, '%')</if>
+            <if test="departurePlace != null  and departurePlace != ''"> and departure_place like concat('%', #{departurePlace}, '%')</if>
+            <if test="destination != null  and destination != ''"> and destination like concat('%', #{destination}, '%')</if>
+            <if test="tags != null  and tags != ''"> and tags like concat('%', #{tags}, '%')</if>
+            <if test="minBudget != null "> and min_budget = #{minBudget}</if>
+            <if test="maxBudget != null "> and max_budget = #{maxBudget}</if>
+            <if test="maxGroupSize != null "> and max_group_size = #{maxGroupSize}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTourRouteByRouteId" parameterType="String" resultMap="TourRouteResult">
+        <include refid="selectTourRouteVo"/>
+        where route_id = #{routeId}
+    </select>
+
+    <insert id="insertTourRoute" parameterType="TourRoute" useGeneratedKeys="true" keyProperty="routeId">
+        insert into tour_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">route_name,</if>
+            <if test="price != null">price,</if>
+            <if test="description != null">description,</if>
+            <if test="duration != null">duration,</if>
+            <if test="departurePlace != null and departurePlace != ''">departure_place,</if>
+            <if test="destination != null and destination != ''">destination,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="images != null">images,</if>
+            <if test="tags != null and tags != ''">tags,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="favoritesCount != null">favorites_count,</if>
+            <if test="commentsCount != null">comments_count,</if>
+            <if test="bookingsCount != null">bookings_count,</if>
+            <if test="minBudget != null">min_budget,</if>
+            <if test="maxBudget != null">max_budget,</if>
+            <if test="maxGroupSize != null">max_group_size,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">#{routeName},</if>
+            <if test="price != null">#{price},</if>
+            <if test="description != null">#{description},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="departurePlace != null and departurePlace != ''">#{departurePlace},</if>
+            <if test="destination != null and destination != ''">#{destination},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="images != null">#{images},</if>
+            <if test="tags != null and tags != ''">#{tags},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="favoritesCount != null">#{favoritesCount},</if>
+            <if test="commentsCount != null">#{commentsCount},</if>
+            <if test="bookingsCount != null">#{bookingsCount},</if>
+            <if test="minBudget != null">#{minBudget},</if>
+            <if test="maxBudget != null">#{maxBudget},</if>
+            <if test="maxGroupSize != null">#{maxGroupSize},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTourRoute" parameterType="TourRoute">
+        update tour_route
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="routeName != null and routeName != ''">route_name = #{routeName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="departurePlace != null and departurePlace != ''">departure_place = #{departurePlace},</if>
+            <if test="destination != null and destination != ''">destination = #{destination},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="tags != null and tags != ''">tags = #{tags},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="favoritesCount != null">favorites_count = #{favoritesCount},</if>
+            <if test="commentsCount != null">comments_count = #{commentsCount},</if>
+            <if test="bookingsCount != null">bookings_count = #{bookingsCount},</if>
+            <if test="minBudget != null">min_budget = #{minBudget},</if>
+            <if test="maxBudget != null">max_budget = #{maxBudget},</if>
+            <if test="maxGroupSize != null">max_group_size = #{maxGroupSize},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where route_id = #{routeId}
+    </update>
+
+    <delete id="deleteTourRouteByRouteId" parameterType="String">
+        delete from tour_route where route_id = #{routeId}
+    </delete>
+
+    <delete id="deleteTourRouteByRouteIds" parameterType="String">
+        delete from tour_route where route_id in 
+        <foreach item="routeId" collection="array" open="(" separator="," close=")">
+            #{routeId}
+        </foreach>
+    </delete>
+</mapper>

@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="renderer" content="webkit">
   <title><%= htmlWebpackPlugin.options.title %></title>
-  <!-- 避免加载 favicon.ico -->
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <!-- 修改预加载配置 -->
+  <link rel="preload" href="/static/js/chunk-vendors.js" as="script">
+  <link rel="preload" href="/static/js/index.js" as="script">
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div id="loading">
+      <div class="loading-text">正在加载...</div>
+    </div>
+  </div>
 </body>
-</html> 
+</html>

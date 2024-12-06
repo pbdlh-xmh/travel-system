@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.DashboardPlaceholderMapper">
+    
+    <resultMap type="DashboardPlaceholder" id="DashboardPlaceholderResult">
+        <result property="id"    column="id"    />
+        <result property="placeholderField"    column="placeholder_field"    />
+    </resultMap>
+
+    <sql id="selectDashboardPlaceholderVo">
+        select id, placeholder_field from dashboard_placeholder
+    </sql>
+
+    <select id="selectDashboardPlaceholderList" parameterType="DashboardPlaceholder" resultMap="DashboardPlaceholderResult">
+        <include refid="selectDashboardPlaceholderVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectDashboardPlaceholderById" parameterType="String" resultMap="DashboardPlaceholderResult">
+        <include refid="selectDashboardPlaceholderVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDashboardPlaceholder" parameterType="DashboardPlaceholder" useGeneratedKeys="true" keyProperty="id">
+        insert into dashboard_placeholder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="placeholderField != null">placeholder_field,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="placeholderField != null">#{placeholderField},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDashboardPlaceholder" parameterType="DashboardPlaceholder">
+        update dashboard_placeholder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="placeholderField != null">placeholder_field = #{placeholderField},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDashboardPlaceholderById" parameterType="String">
+        delete from dashboard_placeholder where id = #{id}
+    </delete>
+
+    <delete id="deleteDashboardPlaceholderByIds" parameterType="String">
+        delete from dashboard_placeholder where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

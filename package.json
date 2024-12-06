@@ -5,8 +5,8 @@
   "author": "若依",
   "license": "MIT",
   "scripts": {
-    "dev:admin": "vue-cli-service serve --mode development --port 80",
-    "dev:client": "vue-cli-service serve --mode development --port 8081",
+    "dev:admin": "vue-cli-service serve --mode admin",
+    "dev:client": "vue-cli-service serve --mode client",
     "dev": "concurrently \"npm run dev:admin\" \"npm run dev:client\"",
     "build:admin": "vue-cli-service build --mode production",
     "build:client": "vue-cli-service build --mode production",

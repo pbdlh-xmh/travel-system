@@ -1,0 +1,24 @@
+{
+  "name": "ruoyi-vue",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r \t<img alt=\"logo\" src=\"https://oscimg.oschina.net/oscnet/up-d3d0a9303e11d522a06cd263f3079027715.png\">\r </p>\r <h1 align=\"center\" style=\"margin: 30px 0 30px; font-weight: bold;\">RuoYi v3.8.8</h1>\r <h4 align=\"center\">基于SpringBoot+Vue前后端分离的Java快速开发框架</h4>\r <p align=\"center\">\r \t<a href=\"https://gitee.com/y_project/RuoYi-Vue/stargazers\"><img src=\"https://gitee.com/y_project/RuoYi-Vue/badge/star.svg?theme=dark\"></a>\r \t<a href=\"https://gitee.com/y_project/RuoYi-Vue\"><img src=\"https://img.shields.io/badge/RuoYi-v3.8.8-brightgreen.svg\"></a>\r \t<a href=\"https://gitee.com/y_project/RuoYi-Vue/blob/master/LICENSE\"><img src=\"https://img.shields.io/github/license/mashape/apistatus.svg\"></a>\r </p>",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-loader": "^9.2.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vuex": "^4.1.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  }
+}

@@ -7,23 +7,25 @@ function resolve(dir) {
 }
 
 const name = process.env.VUE_APP_TITLE || '若依管理系统'
-const port = process.env.port || process.env.npm_config_port || 80
+const isClient = process.env.VUE_APP_MODE === 'client'  // 使用环境变量判断
+const port = isClient ? 8081 : 80  // 直接根据模式设置端口
 
 module.exports = {
-  pages: {
-    admin: {
+  pages: isClient ? {
+    index: {
+      entry: 'src/client.js',
+      template: 'public/client.html',
+      filename: 'index.html',
+      title: '旅游推荐系统',
+      chunks: ['chunk-vendors', 'chunk-common', 'index']  // 改为 'index'
+    }
+  } : {
+    index: {
       entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
-      title: name,
-      chunks: ['chunk-vendors', 'chunk-common', 'admin']
-    },
-    client: {
-      entry: 'src/client.js',
-      template: 'public/client.html',
-      filename: 'client.html',
-      title: 'RuoYi Client',
-      chunks: ['chunk-vendors', 'chunk-common', 'client']
+      title: '后台管理系统',
+      chunks: ['chunk-vendors', 'chunk-common', 'index']  // 改为 'index'
     }
   },
   publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
@@ -33,23 +35,14 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     host: '0.0.0.0',
-    port: process.env.npm_config_port || port,
+    port: port,  // 使用上面定义的端口
     open: true,
     proxy: {
-      // 后台API代理
       [process.env.VUE_APP_BASE_API]: {
         target: `http://localhost:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      },
-      // 客户端API代理
-      '/client-api': {
-        target: `http://localhost:8080`,  // 修改为与后台相同的API服务器
-        changeOrigin: true,
-        pathRewrite: {
-          '^/client-api': ''
         }
       }
     },

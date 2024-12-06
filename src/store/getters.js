@@ -15,9 +15,11 @@ const getters = {
   topbarRouters:state => state.permission.topbarRouters,
   defaultRoutes:state => state.permission.defaultRoutes,
   sidebarRouters:state => state.permission.sidebarRouters,
+  // 客户端相关
   clientToken: state => state.client.token,
   clientName: state => state.client.name,
   clientAvatar: state => state.client.avatar,
-  clientRoles: state => state.client.roles
+  clientRoles: state => state.client.roles,
+  clientPermissions: state => state.client.permissions
 }
 export default getters

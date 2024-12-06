@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.FavoriteMapper">
+    
+    <resultMap type="Favorite" id="FavoriteResult">
+        <result property="favoriteId"    column="favorite_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="routeId"    column="route_id"    />
+        <result property="attractionId"    column="attraction_id"    />
+        <result property="type"    column="type"    />
+        <result property="favoriteTime"    column="favorite_time"    />
+    </resultMap>
+
+    <sql id="selectFavoriteVo">
+        select favorite_id, user_id, route_id, attraction_id, type, favorite_time from favorite
+    </sql>
+
+    <select id="selectFavoriteList" parameterType="Favorite" resultMap="FavoriteResult">
+        <include refid="selectFavoriteVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="type != null "> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectFavoriteByFavoriteId" parameterType="String" resultMap="FavoriteResult">
+        <include refid="selectFavoriteVo"/>
+        where favorite_id = #{favoriteId}
+    </select>
+
+    <insert id="insertFavorite" parameterType="Favorite" useGeneratedKeys="true" keyProperty="favoriteId">
+        insert into favorite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="routeId != null">route_id,</if>
+            <if test="attractionId != null">attraction_id,</if>
+            <if test="type != null">type,</if>
+            <if test="favoriteTime != null">favorite_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="routeId != null">#{routeId},</if>
+            <if test="attractionId != null">#{attractionId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="favoriteTime != null">#{favoriteTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFavorite" parameterType="Favorite">
+        update favorite
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="routeId != null">route_id = #{routeId},</if>
+            <if test="attractionId != null">attraction_id = #{attractionId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="favoriteTime != null">favorite_time = #{favoriteTime},</if>
+        </trim>
+        where favorite_id = #{favoriteId}
+    </update>
+
+    <delete id="deleteFavoriteByFavoriteId" parameterType="String">
+        delete from favorite where favorite_id = #{favoriteId}
+    </delete>
+
+    <delete id="deleteFavoriteByFavoriteIds" parameterType="String">
+        delete from favorite where favorite_id in 
+        <foreach item="favoriteId" collection="array" open="(" separator="," close=")">
+            #{favoriteId}
+        </foreach>
+    </delete>
+</mapper>

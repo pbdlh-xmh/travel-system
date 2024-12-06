@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.CarouselMapper">
+    
+    <resultMap type="Carousel" id="CarouselResult">
+        <result property="carouselId"    column="carousel_id"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectCarouselVo">
+        select carousel_id, image_url, link_url, create_time, status from carousel
+    </sql>
+
+    <select id="selectCarouselList" parameterType="Carousel" resultMap="CarouselResult">
+        <include refid="selectCarouselVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectCarouselByCarouselId" parameterType="String" resultMap="CarouselResult">
+        <include refid="selectCarouselVo"/>
+        where carousel_id = #{carouselId}
+    </select>
+
+    <insert id="insertCarousel" parameterType="Carousel" useGeneratedKeys="true" keyProperty="carouselId">
+        insert into carousel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageUrl != null and imageUrl != ''">image_url,</if>
+            <if test="linkUrl != null and linkUrl != ''">link_url,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
+            <if test="linkUrl != null and linkUrl != ''">#{linkUrl},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCarousel" parameterType="Carousel">
+        update carousel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="linkUrl != null and linkUrl != ''">link_url = #{linkUrl},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where carousel_id = #{carouselId}
+    </update>
+
+    <delete id="deleteCarouselByCarouselId" parameterType="String">
+        delete from carousel where carousel_id = #{carouselId}
+    </delete>
+
+    <delete id="deleteCarouselByCarouselIds" parameterType="String">
+        delete from carousel where carousel_id in 
+        <foreach item="carouselId" collection="array" open="(" separator="," close=")">
+            #{carouselId}
+        </foreach>
+    </delete>
+</mapper>

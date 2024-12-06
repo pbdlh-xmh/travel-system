@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.AttractionMapper">
+    
+    <resultMap type="Attraction" id="AttractionResult">
+        <result property="attractionId"    column="attraction_id"    />
+        <result property="name"    column="name"    />
+        <result property="location"    column="location"    />
+        <result property="description"    column="description"    />
+        <result property="openTime"    column="open_time"    />
+        <result property="ticketPrice"    column="ticket_price"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="images"    column="images"    />
+        <result property="tags"    column="tags"    />
+        <result property="viewCount"    column="view_count"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAttractionVo">
+        select attraction_id, name, location, description, open_time, ticket_price, image_url, images, tags, view_count, create_time, update_time, status from attraction
+    </sql>
+
+    <select id="selectAttractionList" parameterType="Attraction" resultMap="AttractionResult">
+        <include refid="selectAttractionVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="location != null  and location != ''"> and location like concat('%', #{location}, '%')</if>
+            <if test="tags != null  and tags != ''"> and tags like concat('%', #{tags}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAttractionByAttractionId" parameterType="String" resultMap="AttractionResult">
+        <include refid="selectAttractionVo"/>
+        where attraction_id = #{attractionId}
+    </select>
+
+    <insert id="insertAttraction" parameterType="Attraction" useGeneratedKeys="true" keyProperty="attractionId">
+        insert into attraction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="location != null">location,</if>
+            <if test="description != null">description,</if>
+            <if test="openTime != null">open_time,</if>
+            <if test="ticketPrice != null">ticket_price,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="images != null">images,</if>
+            <if test="tags != null">tags,</if>
+            <if test="viewCount != null">view_count,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="location != null">#{location},</if>
+            <if test="description != null">#{description},</if>
+            <if test="openTime != null">#{openTime},</if>
+            <if test="ticketPrice != null">#{ticketPrice},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="images != null">#{images},</if>
+            <if test="tags != null">#{tags},</if>
+            <if test="viewCount != null">#{viewCount},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAttraction" parameterType="Attraction">
+        update attraction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="openTime != null">open_time = #{openTime},</if>
+            <if test="ticketPrice != null">ticket_price = #{ticketPrice},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="tags != null">tags = #{tags},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where attraction_id = #{attractionId}
+    </update>
+
+    <delete id="deleteAttractionByAttractionId" parameterType="String">
+        delete from attraction where attraction_id = #{attractionId}
+    </delete>
+
+    <delete id="deleteAttractionByAttractionIds" parameterType="String">
+        delete from attraction where attraction_id in 
+        <foreach item="attractionId" collection="array" open="(" separator="," close=")">
+            #{attractionId}
+        </foreach>
+    </delete>
+</mapper>

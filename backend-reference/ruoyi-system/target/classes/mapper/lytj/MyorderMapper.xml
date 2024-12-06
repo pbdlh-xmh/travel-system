@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.lytj.mapper.MyorderMapper">
+    
+    <resultMap type="Myorder" id="MyorderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="routeId"    column="route_id"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="travelDate"    column="travel_date"    />
+        <result property="numPeople"    column="num_people"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMyorderVo">
+        select order_id, user_id, route_id, order_time, travel_date, num_people, total_price, order_status, contact_name, contact_phone, remarks, create_time, update_time from myorder
+    </sql>
+
+    <select id="selectMyorderList" parameterType="Myorder" resultMap="MyorderResult">
+        <include refid="selectMyorderVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="params.beginTravelDate != null and params.beginTravelDate != '' and params.endTravelDate != null and params.endTravelDate != ''"> and travel_date between #{params.beginTravelDate} and #{params.endTravelDate}</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyorderByOrderId" parameterType="String" resultMap="MyorderResult">
+        <include refid="selectMyorderVo"/>
+        where order_id = #{orderId}
+    </select>
+
+    <insert id="insertMyorder" parameterType="Myorder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into myorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="routeId != null and routeId != ''">route_id,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="travelDate != null">travel_date,</if>
+            <if test="numPeople != null">num_people,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="contactName != null and contactName != ''">contact_name,</if>
+            <if test="contactPhone != null and contactPhone != ''">contact_phone,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="routeId != null and routeId != ''">#{routeId},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="travelDate != null">#{travelDate},</if>
+            <if test="numPeople != null">#{numPeople},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="contactName != null and contactName != ''">#{contactName},</if>
+            <if test="contactPhone != null and contactPhone != ''">#{contactPhone},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyorder" parameterType="Myorder">
+        update myorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="routeId != null and routeId != ''">route_id = #{routeId},</if>
+            <if test="orderTime != null">order_time = #{orderTime},</if>
+            <if test="travelDate != null">travel_date = #{travelDate},</if>
+            <if test="numPeople != null">num_people = #{numPeople},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="contactName != null and contactName != ''">contact_name = #{contactName},</if>
+            <if test="contactPhone != null and contactPhone != ''">contact_phone = #{contactPhone},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteMyorderByOrderId" parameterType="String">
+        delete from myorder where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteMyorderByOrderIds" parameterType="String">
+        delete from myorder where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+</mapper>

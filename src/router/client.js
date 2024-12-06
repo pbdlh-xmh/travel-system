@@ -5,39 +5,42 @@ Vue.use(Router)
 
 export const clientRoutes = [
   {
-    path: '/home',
-    component: () => import('../views/client/layout/index.vue'),
+    path: '/client',  // 修改为父路径
+    component: () => import('@/views/client/layout/index.vue'),
+    redirect: '/client/home',  // 添加重定向
     children: [
       {
-        path: '',
-        component: () => import('../views/client/home/index.vue'),
+        path: 'home',  // 子路由路径，会自动拼接父路径
+        component: () => import('@/views/client/home/index.vue'),  // 修改为正确的组件路径
         name: 'ClientHome',
         meta: { title: '首页', requireAuth: true }
       }
     ]
   },
   {
-    path: '/login',
-    component: () => import('../views/client/login/index.vue'),
+    path: '/client/login',
+    component: () => import('@/views/client/login/index.vue'),
     hidden: true
   },
   {
-    path: '/register',
-    component: () => import('../views/client/register/index.vue'),
+    path: '/client/register',
+    component: () => import('@/views/client/register/index.vue'),
     hidden: true
   }
 ]
 
-// 创建独立的客户端路由实例
 const createClientRouter = () => new Router({
   mode: 'history',
-  base: '/client/', // 添加基础路径
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/client'  // 重定向到 /client
     },
-    ...clientRoutes
+    ...clientRoutes,
+    {
+      path: '*',
+      redirect: '/client'  // 404 重定向到 /client
+    }
   ]
 })
 

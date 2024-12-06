@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/client/auth'
+import { clientLogin, clientLogout, getClientInfo } from '@/api/client/auth'
 import { getClientToken, setClientToken, removeClientToken } from '@/utils/clientAuth'
 
 const client = {
@@ -33,10 +33,10 @@ const client = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const account = userInfo.account.trim()
       const password = userInfo.password
       return new Promise((resolve, reject) => {
-        login({ username, password }).then(res => {
+        clientLogin({ account, password }).then(res => {
           setClientToken(res.token)
           commit('SET_TOKEN', res.token)
           resolve()
@@ -47,11 +47,11 @@ const client = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(res => {
+        getClientInfo().then(res => {
           const user = res.user
-          
+
           // 验证返回的roles是否是一个非空数组
           if (res.roles && res.roles.length > 0) {
             commit('SET_ROLES', res.roles)
@@ -59,7 +59,7 @@ const client = {
           } else {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
-          
+
           commit('SET_NAME', user.userName)
           commit('SET_AVATAR', user.avatar)
           resolve(res)
@@ -70,9 +70,9 @@ const client = {
     },
 
     // 退出系统
-    LogOut({ commit, state }) {
+    LogOut({ commit }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        clientLogout().then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
@@ -86,4 +86,4 @@ const client = {
   }
 }
 
-export default client 
+export default client

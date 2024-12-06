@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.client.mapper.MyUserMapper">
+
+    <sql id="selectUserVo">
+        select user_id, username, password, email, phone, gender, avatar_url, status, last_login_time
+        from myuser
+    </sql>
+
+    <select id="selectByUsername" parameterType="String" resultMap="MyUserResult">
+        <include refid="selectUserVo"/>
+        where username = #{username}
+    </select>
+
+    <select id="selectByEmail" parameterType="String" resultMap="MyUserResult">
+        <include refid="selectUserVo"/>
+        where email = #{email}
+    </select>
+
+    <select id="selectByPhone" parameterType="String" resultMap="MyUserResult">
+        <include refid="selectUserVo"/>
+        where phone = #{phone}
+    </select>
+
+    <update id="updateLoginTime">
+        update myuser
+        set last_login_time = sysdate()
+        where user_id = #{userId}
+    </update>
+
+    <resultMap type="com.ruoyi.client.domain.MyUser" id="MyUserResult">
+        <id     property="userId"        column="user_id"          />
+        <result property="username"      column="username"         />
+        <result property="password"      column="password"         />
+        <result property="email"         column="email"            />
+        <result property="phone"         column="phone"            />
+        <result property="gender"        column="gender"           />
+        <result property="avatarUrl"     column="avatar_url"       />
+        <result property="status"        column="status"           />
+        <result property="lastLoginTime" column="last_login_time"  />
+    </resultMap>
+
+</mapper>
